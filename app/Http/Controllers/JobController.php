@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Job;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
+
 class JobController extends Controller
 {
     public function index()
@@ -30,6 +34,7 @@ class JobController extends Controller
     public function store(Request $request)
     {
 
+        
         $request->validate(
             [
                 'title' => ['required', 'min:3'],
@@ -47,7 +52,9 @@ class JobController extends Controller
     }
     public function edit(Job $job)
     {
-       
+        
+        // Gate::authorize('edit-job', $job);
+
         return view('jobs.edit', compact('job'));
 
     }

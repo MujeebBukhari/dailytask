@@ -1,5 +1,7 @@
 <?php
 use App\Http\Controllers\JobController;
+use App\Http\Controllers\SessionController;
+use App\Http\Controllers\UserRegisterController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Arr;
 use App\Models\Job;
@@ -12,12 +14,28 @@ Route::controller(JobController::class)->group( function(){
 
     Route::get('/jobs',  'index');
     Route::get('jobs/create',  'create');
-    Route::get('/jobs/{job}',  'show');
+    Route::get('/jobs/{job}',  'show')->middleware(['auth']);
     Route::post('/jobs/create',  'store');
-    Route::get('jobs/{job}/edit',  'edit');
+    Route::get('jobs/{job}/edit',  'edit')
+    ->middleware(['auth'])->can('edit', 'job');
     Route::patch('jobs/{job}',  'update');
     Route::delete('jobs/{job}',  'destroy');
 });
+Route::controller(UserRegisterController::class)->group( function(){
+
+    Route::get('/register', 'create');
+    Route::post('/register', 'store')->name('register.store');
+   
+});
+
+Route::controller(SessionController::class)->group( function(){
+
+    Route::get('/login', 'login')->name('login');
+    Route::post('/login','store');
+    Route::post('/logout', 'logout')->name('logout');
+   
+});
+
 
 
 
