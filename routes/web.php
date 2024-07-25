@@ -5,7 +5,14 @@ use App\Http\Controllers\UserRegisterController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Arr;
 use App\Models\Job;
+use Illuminate\Support\Facades\Mail;
 
+Route::get('/test', function() {
+    Mail::to('mujeebsyed081@gmail.com')->send(
+        new App\Mail\JobPosted()
+    );
+    return 'Done';
+});
 
 Route::view('/', 'home');
 Route::view('/contact', 'contact');
